@@ -54,12 +54,3 @@ k = np.array([[700, 0, 320], [0, 700, 240], [0, 0, 1]])
 poses = stereo_calibration(imgL, imgR, k, k)
 print(poses)
 ```
-
-Want help?
-- I can:
-	- Add a small `examples/` folder with sample images and a stable demo script,
-	- Convert the project into an importable package (`stereo_calibration`) so `-m` works,
-	- Pin exact versions in `requirements.txt` or add a Conda environment YAML.
-	- Add CI to run the ORB demo on synthetic images.
-
-Tell me which option you prefer and I will implement it.
