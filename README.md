@@ -11,7 +11,7 @@ Requirements
 - Optional (neural features): `torch` and `kornia` to enable `feature.py` SuperPoint/SuperGlue functionality.
 - See `requirements.txt` for suggested packages.
 
-Install (example)
+Install
 ```bash
 # using pip
 pip install -r requirements.txt
