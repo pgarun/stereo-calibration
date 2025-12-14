@@ -22,10 +22,17 @@ class StereoCalibration:
         # We want to check if the Z coordinate is positive
         for R_cand, t_cand in candidate_poses:
             X_cam = R_cand @ X_world + t_cand
+            # Projection on the camera
             X_proj = K @ X_cam
-            X_proj /= X_proj[2]
-            if X_proj[2] > 0:
+            X_proj /= X_proj[2]  # Normalize by the third homogeneous coordinate
+
+            if X_proj.all() > 0:
                 return R_cand, t_cand
+        
+    def _translation_from_cross_product_matrix(self, t_mat):
+        """Extract translation vector from its cross-product matrix."""
+        t = np.array([t_mat[2, 1], t_mat[0, 2], t_mat[1, 0]])
+        return t.reshape(3, 1)
     
     def pose_estimation(self):
         """Decompose the essential matrix into rotation and translation candidates."""
@@ -38,20 +45,15 @@ class StereoCalibration:
         if np.linalg.det(V) < 0:
             V[-1, :] *= -1
 
-        Wr = np.array([[0, -1, 0],
-                      [1, 0, 0],
-                      [0, 0, 1]])
-        
-        Wt = np.array([[0, -1, 0],
-                      [1, 0, 0],
-                      [0, 0, 0]])
-        
-        R1 = np.eye(3)
-        t1 = np.zeros(3).T
+        # Typical essential decomposition: two possible rotations and two possible translations
+        Wr = np.array([[0, -1, 0], [1, 0, 0], [0, 0, 1]])
+        Wt = np.array([[0, 1, 0], [-1, 0, 0], [0, 0, 0]])
 
-        R2 = U @ Wr @ V.T
-        t2 = U @ Wt @ U.T
+        R = U @ Wr @ V.T
+        t = U @ Wt @ U.T
 
-        R2, t2 = self._pose_translation_correctness(self.k2, R2, t2)
+        t = self._translation_from_cross_product_matrix(t)
 
-        return (R1, t1), (R2, t2)
+        R, t = self._pose_translation_correctness(self.k2, R, t)
+
+        return ( np.eye(3), np.zeros((3, 1)) ), ( R, t )
