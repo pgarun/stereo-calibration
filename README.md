@@ -1,4 +1,4 @@
-# stereo-calibration
+# Stereo-calibration
 
 Lightweight utilities for stereo calibration: feature extraction/matching, an 8‑point fundamental matrix estimator, and essential matrix decomposition with pose selection.
 
