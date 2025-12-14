@@ -33,7 +33,7 @@ Notes on `-m` usage and package name
 	- Run the script directly as above (preferred), or
 	- Rename the folder to a valid package name (e.g., `stereo_calibration`) and add `__init__.py` if you want `-m` style imports.
 
-Files (brief)
+Files
 - `calibration.py`: `StereoCalibration` computes the essential matrix from a fundamental matrix and intrinsics and provides pose selection logic.
 - `estimator.py`: `estimate_fundamental_matrix(matches)` implements an 8‑point style linear solve and enforces rank‑2; `residuals(F, matches)` computes algebraic error.
 - `feature.py`: wrapper for SuperPoint/SuperGlue (lazy-loaded) with `feature_extraction`, `feature_matching`, and `topk_matches`. Raises `ImportError` when neural deps are missing.
@@ -41,7 +41,7 @@ Files (brief)
 - `demo.py`: ORB-based end-to-end example (no neural deps).
 - `requirements.txt`: minimal/pinned packages used for examples.
 
-Example (Python usage)
+Example
 ```python
 import cv2
 import numpy as np
